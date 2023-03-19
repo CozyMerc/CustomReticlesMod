@@ -1,0 +1,67 @@
+"Basic"	// BACKGROUND GLOW - Semi Transparent
+{
+	"$surfaceprop" "plastic"
+
+	"$basetexture" "models\weapons\attachments\_ammo\ammo_counter_screen_bg01_col"
+	$alpha	.01
+	"$translucent" "1"
+
+	//Start of freehand input from reVaMpT//
+	//"$selfillum" "1"
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"6.6"
+	$valueone	"1"
+
+	
+	"Proxies"
+	{
+		"BackgroundAmmoColor"
+		{
+			"resultVar"			"$color"
+		}
+		Clamp	//0
+		{
+			srcVar1		$valuezero
+			 min			"$color[0]"
+			 max			"$color[0]"
+			resultVar	$color_temp_0
+		}
+		
+		Clamp	//1
+		{
+			srcVar1		$valuezero			
+			min			"$color[1]"
+			max			"$color[1]"
+			resultVar	$color_temp_1
+		}
+		Clamp	//2
+		{
+			srcVar1		$valuezero
+			min			"$color[2]"
+			max			"$color[2]"
+			resultVar	$color_temp_2		
+		}
+		multiply	//0
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color[0]"
+		}
+		multiply	//1
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color[1]"
+		}
+		multiply	//2
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale"
+			resultVar	"$color[2]"
+		}
+	}
+}

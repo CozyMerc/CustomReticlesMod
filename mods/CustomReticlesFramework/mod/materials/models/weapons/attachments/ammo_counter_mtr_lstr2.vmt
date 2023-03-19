@@ -1,0 +1,103 @@
+"Basic" // ammo counter meter - generic
+{
+	"$surfaceprop" "glass"
+
+	"$basetexture" "models\weapons\attachments\ammo_counter_meter_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_meter_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1
+	//"$decalscale" 0.25
+	"$ammofrac" "0.0"
+	$ammofrac_temp	"0.0"
+	$valueone	"1"
+	$valuetemp	".04"
+	
+	$alpha	.01
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"10"
+	$colorscale2		"12"
+
+
+
+	"Proxies"
+	{
+		"LSTARHeatFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+		//"ClipAmmoFraction"
+		//{
+		//	"resultVar" "$ammofrac"
+		//}
+
+		add
+		{
+			srcVar1	$ammofrac
+			srcVar2	$valuetemp
+			resultVar	$ammofrac_temp
+		}
+
+		Equals
+		{
+			srcVar1	$ammofrac_temp
+			resultVar	$ammofrac
+		}
+
+		"ProgressBarWithFrac"
+		{
+			"fraction"		"$ammofrac"
+			"resultVar"		"$basetexturetransform"
+		}
+
+		"ClipAmmoColor"
+		{
+			"resultVar"			"$color"
+		}
+		
+		Clamp	//0
+       		 {
+          		 	srcVar1		$valuezero
+           			min			"$color[0]"
+           		 	max			"$color[0]"
+           		 	resultVar	$color_temp_0
+       		 }
+		
+		Clamp	//1
+		{
+			srcVar1		$valuezero
+			min			"$color[1]"
+			max			"$color[1]"	
+			resultVar	$color_temp_1
+		}
+		Clamp	//2
+		{
+			srcVar1		$valuezero
+			min			"$color[2]"
+			max			"$color[2]"
+			resultVar	$color_temp_2
+        		}
+		multiply	//0
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color[0]"
+		}
+		multiply	//1
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color[1]"
+		}
+		multiply	//2
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale2"
+			resultVar	"$color[2]"
+		}
+	}
+}

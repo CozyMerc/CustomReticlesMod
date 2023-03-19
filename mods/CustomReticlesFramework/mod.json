@@ -1,8 +1,8 @@
 {
 	"Name" : "CRM.RETICLE_FRAMEWORK",
-	"Description" : "This mod is a compilation of vmts/vtfs that focus on bungin back sway correcton from TF|1. requires modsettings to function",
+	"Description" : "This mod is a compilation of vmts/vtfs that focus on bringing back sway correcton from TF|1. requires modsettings to function",
 	"LoadPriority": 2,
-	"Version": "1.0.0",
+	"Version": "1.3.2",
 	"RequiredOnClient": false,
 	"Scripts": [
 		{
@@ -16,8 +16,23 @@
 	"ConVars":
 	[
 		{
+			"Name": "CRM.offset_disable",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cstm_color_override",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
 			"Name": "CRM.rgb_override",
 			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.offset_scalar_global",
+			"DefaultValue": "1",
 			"Flags": 16777216
 		},
 		{
@@ -41,18 +56,18 @@
 			"Flags": 16777216
 		},
 		{
+			"Name": "CRM.aog_r1_windage_style",
+			"DefaultValue": "5",
+			"Flags": 16777216
+		},
+		{
 			"Name": "CRM.aog_r1_reticle_scale",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.aog_r1_offset_scalarX",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
-			"Name": "CRM.aog_r1_offset_scalarY",
-			"DefaultValue": "1.0",
+			"Name": "CRM.aog_r1_windage_scale",
+			"DefaultValue": "0.0",
 			"Flags": 16777216
 		},
 		{
@@ -72,7 +87,12 @@
 		},
 		{
 			"Name": "CRM.acgs_reticle_style",
-			"DefaultValue": "0",
+			"DefaultValue": "1",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.acgs_windage_style",
+			"DefaultValue": "3",
 			"Flags": 16777216
 		},
 		{
@@ -81,13 +101,8 @@
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.acgs_offset_scalarX",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
-			"Name": "CRM.acgs_offset_scalarY",
-			"DefaultValue": "1.0",
+			"Name": "CRM.acgs_windage_scale",
+			"DefaultValue": "0.0",
 			"Flags": 16777216
 		},
 		{
@@ -111,18 +126,18 @@
 			"Flags": 16777216
 		},
 		{
+			"Name": "CRM.aog_r2_windage_style",
+			"DefaultValue": "5",
+			"Flags": 16777216
+		},
+		{
 			"Name": "CRM.aog_r2_reticle_scale",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.aog_r2_offset_scalarX",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
-			"Name": "CRM.aog_r2_offset_scalarY",
-			"DefaultValue": "1.0",
+			"Name": "CRM.aog_r2_windage_scale",
+			"DefaultValue": "0.0",
 			"Flags": 16777216
 		},
 		{
@@ -146,18 +161,18 @@
 			"Flags": 16777216
 		},
 		{
+			"Name": "CRM.hcog2_windage_style",
+			"DefaultValue": "1",
+			"Flags": 16777216
+		},
+		{
 			"Name": "CRM.hcog2_reticle_scale",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.hcog2_offset_scalarX",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
-			"Name": "CRM.hcog2_offset_scalarY",
-			"DefaultValue": "1.0",
+			"Name": "CRM.hcog2_windage_scale",
+			"DefaultValue": "0.0",
 			"Flags": 16777216
 		},
 		{
@@ -172,12 +187,12 @@
 		},
 		{
 			"Name": "CRM.cro_base_colorB",
-			"DefaultValue": "4.0",
+			"DefaultValue": "6.0",
 			"Flags": 16777216
 		},
 		{
 			"Name": "CRM.cro_reticle_style",
-			"DefaultValue": "7",
+			"DefaultValue": "0",
 			"Flags": 16777216
 		},
 		{
@@ -186,23 +201,13 @@
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.cro_offset_scalarX",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
-			"Name": "CRM.cro_offset_scalarY",
-			"DefaultValue": "1.0",
-			"Flags": 16777216
-		},
-		{
 			"Name": "CRM.holo_r2_base_colorR",
-			"DefaultValue": "1.0",
+			"DefaultValue": "2.0",
 			"Flags": 16777216
 		},
 		{
 			"Name": "CRM.holo_r2_base_colorG",
-			"DefaultValue": "3.0",
+			"DefaultValue": "4.0",
 			"Flags": 16777216
 		},
 		{
@@ -216,19 +221,504 @@
 			"Flags": 16777216
 		},
 		{
+			"Name": "CRM.holo_r2_windage_style",
+			"DefaultValue": "2",
+			"Flags": 16777216
+		},
+		{
 			"Name": "CRM.holo_r2_reticle_scale",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.holo_r2_offset_scalarX",
+			"Name": "CRM.holo_r2_windage_scale",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cqh_base_colorR",
+			"DefaultValue": "3.8",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cqh_base_colorG",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
 		},
 		{
-			"Name": "CRM.holo_r2_offset_scalarY",
+			"Name": "CRM.cqh_base_colorB",
 			"DefaultValue": "1.0",
 			"Flags": 16777216
-		}
+		},
+		{
+			"Name": "CRM.cqh_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cqh_windage_style",
+			"DefaultValue": "10",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cqh_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.cqh_windage_scale",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_base_colorR",
+			"DefaultValue": "8.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_base_colorG",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_base_colorB",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_reticle_style",
+			"DefaultValue": "3",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_windage_style",
+			"DefaultValue": "1",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog1_windage_scale",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog5_base_colorR",
+			"DefaultValue": "8.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog5_base_colorG",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog5_base_colorB",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog5_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hcog5_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_base_colorR",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_reticle_style",
+			"DefaultValue": "3",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_reticle_scale",
+			"DefaultValue": "1.4",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r201_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_base_colorR",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_base_colorR",
+			"DefaultValue": "5.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.g2_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_base_colorR",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_reticle_scale",
+			"DefaultValue": "1.4",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.vinson_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_base_colorR",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_base_colorG",
+			"DefaultValue": "3.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_base_colorB",
+			"DefaultValue": "9.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_reticle_scale",
+			"DefaultValue": "1.2",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.lstar_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_base_colorR",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_base_colorG",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_base_colorB",
+			"DefaultValue": "5.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_br_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_base_colorR",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_base_colorG",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_base_colorB",
+			"DefaultValue": "5.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_lmg_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_base_colorR",
+			"DefaultValue": "6.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_reticle_scale",
+			"DefaultValue": "1.2",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.alternator_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_base_colorR",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_reticle_scale",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.r97_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_base_colorR",
+			"DefaultValue": "3.3",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_base_colorG",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_base_colorB",
+			"DefaultValue": "6.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_reticle_scale",
+			"DefaultValue": "1.2",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.car_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_base_colorR",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_base_colorG",
+			"DefaultValue": "3.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_base_colorB",
+			"DefaultValue": "5.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_reticle_scale",
+			"DefaultValue": "1.2",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.hemlok_smg_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_base_colorR",
+			"DefaultValue": "5.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_base_colorG",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_base_colorB",
+			"DefaultValue": "1.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_reticle_style",
+			"DefaultValue": "9",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_reticle_scale",
+			"DefaultValue": "1.4",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.doubletake_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_base_colorR",
+			"DefaultValue": "7.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_base_colorG",
+			"DefaultValue": "4.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_base_colorB",
+			"DefaultValue": "2.0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_reticle_style",
+			"DefaultValue": "0",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_reticle_scale",
+			"DefaultValue": "1.2",
+			"Flags": 16777216
+		},
+		{
+			"Name": "CRM.mastiff_front_offset_scalar",
+			"DefaultValue": "0.0",
+			"Flags": 16777216
+		},
 	]
 }

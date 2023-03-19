@@ -1,0 +1,84 @@
+UnlitTwoTexture //"Basic" // ammo counter meter - generic
+{
+	//"$surfaceprop" "glass"
+
+	"$basetexture" "models\weapons\attachments\_ammo\ammo_cntr_bars_col"
+	"$Texture2" "models\weapons\attachments\ammo_counter_meter_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_meter_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1
+	//"$decalscale" 0.25
+	"$ammofrac" "0.0"
+	$valueone	"1"
+	
+	$alpha	1
+	$color	"[1.0 1.0 1.0]"
+	$color2	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"1"
+
+	"Proxies"
+	{
+		"ClipAmmoFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+
+		"ProgressBarWithFrac"
+		{
+			"fraction"		"$ammofrac"
+			"resultvar" "$texture2transform"
+			//"resultVar"		"$basetexturetransform"
+		}
+
+		"ClipAmmoColor"
+		{
+			"resultVar"			"$color2"
+		}
+		
+		Clamp	//0
+        {
+            srcVar1		$valuezero
+            min			"$color[0]"
+            max			"$color[0]"
+            resultVar	$color_temp_0
+        }
+		
+        Clamp	//1
+        {
+            srcVar1		$valuezero
+            min			"$color[1]"
+            max			"$color[1]"
+            resultVar	$color_temp_1
+        }
+		Clamp	//2
+        {
+            srcVar1		$valuezero
+            min			"$color[2]"
+            max			"$color[2]"
+            resultVar	$color_temp_2
+        }
+		multiply	//0
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color[0]"
+		}
+		multiply	//1
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color[1]"
+		}
+		multiply	//2
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale"
+			resultVar	"$color[2]"
+		}
+	}
+}

@@ -1,0 +1,90 @@
+"Basic"
+{
+	"$surfaceprop" "plastic"
+
+	"$basetexture" "models\weapons\attachments\_ammo\ammo_counter_numbers_pixl_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_numbers_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1 
+	//"$decalscale" 0.25
+	"$allowoverbright"	"1"
+
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"2"
+
+	"$ammo" "0"
+	"$atlasFrames" "[16 1]"
+	"$atlasFrameStart" "[0 0]"
+	
+	"Proxies"
+	{
+		"ClipAmmo"
+		{
+			"resultVar" "$ammo"
+		}
+	
+		"NumericCounterAtlasFrame"
+		{
+			"value"						"$ammo"
+			"digitIndex"				"1"
+			"resultAtlasFrameIndexVar"	"$atlasFrameStart[0]"
+		}
+	
+		"TextureAtlas"
+		{
+			"frameSize"		"$atlasFrames"
+			"frameStart"	"$atlasFrameStart"
+			"resultVar"		"$basetexturetransform"
+		}
+
+		"ClipAmmoColor"
+		{
+			"resultVar"			"$color"
+		}
+				Clamp	//0
+        {
+            srcVar1		$valuezero
+            min			"$color[0]"
+            max			"$color[0]"
+            resultVar	$color_temp_0
+        }
+		
+        Clamp	//1
+        {
+            srcVar1		$valuezero
+            min			"$color[1]"
+            max			"$color[1]"
+            resultVar	$color_temp_1
+        }
+		Clamp	//2
+        {
+            srcVar1		$valuezero
+            min			"$color[2]"
+            max			"$color[2]"
+            resultVar	$color_temp_2
+        }
+				multiply	//Y axis
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color[0]"
+		}
+				multiply	//Y axis
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color[1]"
+		}
+				multiply	//Y axis
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale"
+			resultVar	"$color[2]"
+		}
+	}
+}

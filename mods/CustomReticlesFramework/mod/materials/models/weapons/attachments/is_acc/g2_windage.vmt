@@ -1,0 +1,251 @@
+UnlitTwoTexture	//G2a4 reticle accesories
+{
+	"$nocull" "1"	
+	"$nodecal" "1"
+	"$additive" "1"
+	"$no_fullbright" 1
+	"$model" "1"
+	"$nofog" "1"
+	"$allowoverbright" "1"
+	"$translucent" "1"
+	
+
+	"$basetexture" "models\weapons\attachments\is_acc\g2_windage_col"
+	"$Texture2" "dev\noise_post_512" //"$Texture2" "dev\noise_post"
+	
+	"$t2offset" 0
+	"$t2scale" 60
+	"$t2rot" 0
+	"$scroll" "[0 2]"
+	
+	$holoOffset "[0 0]"
+
+	//custom colours
+	"$color" "[1 1 1]"
+	"$color2" "[5 1 1]"
+
+	"$colorblind" "0"
+	"$valuezero"	"0"
+	"$valueone"	"1"
+	"$valuetwo"	"2"
+	"$valuethree"	"3"
+	
+	"$colortemp"		"[1 1 1]"
+
+	"$clroffsetzero"	"[4 1 1]"
+ 	"$clroffsetone"		"[4 3 0]"
+	"$clroffsettwo"		"[3 2 2]"
+	"$clroffsetthree"	"[3.3 3 0]"
+	"$clroffsetfour"	"[.0 .0 .0]"		//Lgbtq+ mode /s
+	
+	"$isRainbow"		"0"					//sets rainbow mode
+	"$isCstmColor"		"0"					//overrides colourblind settings
+	
+//var dummies for customisable colours
+	"$cstm_color_r" "0.0"
+	"$cstm_color_g" "0.0"
+	"$cstm_color_b" "0.0"
+	
+	"Proxies"
+	{
+//Convar Based colour manipulation
+//
+
+		//Import client colurblind setting
+		"ConVar"
+		{
+			convar		"colorblind_mode"
+			resultVar	"$colorblind"
+		}
+		
+		// Custom base colour/[colorblind_mode 0]
+		"ConVar" //RED
+		{
+			convar		"CRM.g2_front_base_colorR" 
+			resultVar	"$cstm_color_r"
+		}
+		"ConVar" //GREEN
+		{
+			convar		"CRM.g2_front_base_colorG"
+			resultVar	"$cstm_color_g"
+		}
+		"ConVar" //BLUE
+		{
+			convar		"CRM.g2_front_base_colorB"
+			resultVar	"$cstm_color_b"
+		}
+		
+		//Move custom RGB values
+		//from temporary vars to base 'clroffset'
+		Equals
+		{
+			srcVar1			$cstm_color_r
+			resultVar		"$clroffsetzero[0]"
+		}
+		Equals
+		{
+			srcVar1			$cstm_color_g
+			resultVar		"$clroffsetzero[1]"
+		}
+		Equals
+		{
+			srcVar1			$cstm_color_b
+			resultVar		"$clroffsetzero[2]"
+		}
+		
+//Colourblind mod
+//
+
+		// for 1/2
+		"LessOrEqual" 
+		{
+			LessEqualVar	$clroffsetone
+			greaterVar		$clroffsettwo
+			srcVar1			$colorblind
+			srcVar2			$valueone
+			resultVar		$color2
+		}
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		// for 3
+		LessOrEqual
+		{
+			LessEqualVar	$colortemp
+			greaterVar		$clroffsetthree
+			srcVar1			$colorblind
+			srcVar2			$valuetwo
+			resultVar		$color2
+		}
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		// for 0
+		LessOrEqual
+		{
+			LessEqualVar	$clroffsetzero
+			greaterVar		$colortemp
+			srcVar1			$colorblind
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+//Custom Colour OVERRIDES Colourblind settings	
+		
+		// Custom colour override
+		"ConVar"
+		{
+			convar		"CRM.cstm_color_override" 
+			resultVar	"$isCstmColor"
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$colortemp
+			greaterVar		$clroffsetzero
+			srcVar1			$isCstmColor
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+		
+//RGB MODE OVERRIDE
+//
+
+		//Is rgb mode on/off
+		"ConVar"
+		{
+			convar		"CRM.rgb_override"
+			resultVar	"$isRainbow"
+		}
+
+		//RGB pattern
+		sine //RED
+		{
+			sineperiod	"3"		// period time [s]
+			sinemin		.1		// min lum
+			sinemax		4		// max lum
+			timeoffset	0		// offset [s]
+
+			resultvar	"$clroffsetfour[0]" 		
+		}
+		sine //GREEN
+		{
+			sineperiod	"3"
+			sinemin		.1
+			sinemax		4
+			timeoffset	"1"
+									
+			resultvar	"$clroffsetfour[1]" 		
+		}
+		sine //BLUE
+		{
+			sineperiod	"3"
+			sinemin		.1
+			sinemax		4
+			timeoffset	"2"
+									
+			resultvar	"$clroffsetfour[2]" 		
+		}
+
+		//Just in case
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$colortemp
+			greaterVar		$clroffsetfour
+			srcVar1			$isRainbow
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+		
+		//Horizontal movement speed
+		"UniformNoise"
+		{
+			"minVal" 0.5
+			"maxVal" 1
+			"resultVar" "$scroll[0]"
+		}
+		//Vertical movement speed
+		"UniformNoise"
+		{
+			"minVal" 0.5
+			"maxVal" 1
+			"resultVar" "$scroll[1]"
+		}
+		//Move the 2nd texture using horiz and vert speed
+		"TextureTransform"
+		{
+			"translateVar" "$scroll"
+			"scaleVar" "$t2scale"
+			"rotateVar" "$t2rot"
+			"resultvar" "$texture2transform"
+		}
+		// flicker
+		"UniformNoise"
+		{
+			"minVal" 0.8
+			"maxVal" 1.00
+			"resultVar" "$color"
+		}
+		
+		"HoloSight"
+		{
+			resultVar $alpha
+		}
+		"Clamp"
+		{
+			min	"0"
+			max	"1.0"
+			srcVar1	$alpha
+			resultVar	$alpha
+		}
+	}
+}

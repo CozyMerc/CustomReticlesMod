@@ -1,0 +1,125 @@
+UnlitTwoTexture //"Basic" // ammo counter meter - generic
+{
+	//"$surfaceprop" "glass"
+
+	"$basetexture" "models\weapons\attachments\_ammo\shtgn_shell_col"
+	"$Texture2" "models\weapons\attachments\ammo_counter_meter_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_meter_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1
+	//"$decalscale" 0.25
+	"$ammofrac" "0.0"
+	$valueone	"1"
+	"$allowoverbright"	"1"
+	
+	$alpha	.45
+	$color	"[.10 .10 .10]"
+	$color2	"[.0 .0 .0]"
+	$valuezero "0"
+	$valuetwo "2"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"14"
+
+	$holoScale "[0.0 0.0]"		// Base scaling var [inverted!]
+	$holoOffset "[0.5 0.0]"		// Base Offset var
+	
+	$offsetVal	".0"
+	
+	$maxClipAmmo		"1.0"
+	$maxClipAmmoTemp	".0"	//dummy value
+	
+	"Proxies"
+	{
+		"MaxClipAmmo"
+		{
+			"resultVar" "$maxClipAmmo"
+		}
+		"ClipAmmoFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+
+		"ProgressBarWithFrac"
+		{
+			"fraction"		"$ammofrac"
+			"resultvar" "$texture2transform"
+			//"resultVar"		"$basetexturetransform"
+		}
+
+		"ClipAmmoColor"
+		{
+			"resultVar"			"$color2"
+		}
+		
+		Clamp	//0
+        {
+            srcVar1		$valuezero
+            min			"$color2[0]"
+            max			"$color2[0]"
+            resultVar	$color_temp_0
+        }
+		
+        Clamp	//1
+        {
+            srcVar1		$valuezero
+            min			"$color2[1]"
+            max			"$color2[1]"
+            resultVar	$color_temp_1
+        }
+		Clamp	//2
+        {
+            srcVar1		$valuezero
+            min			"$color2[2]"
+            max			"$color2[2]"
+            resultVar	$color_temp_2
+        }
+		multiply	//0
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color2[0]"
+		}
+		multiply	//1
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color2[1]"
+		}
+		multiply	//2
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale"
+			resultVar	"$color2[2]"
+		}
+		
+		Equals 
+		{
+			srcVar1			$maxClipAmmo
+			resultVar		$maxClipAmmoTemp
+		}
+		
+		Divide
+		{
+			srcVar1		$maxClipAmmoTemp
+			srcVar2		$valuetwo
+			resultVar	$maxClipAmmo
+		}
+		
+		Equals 
+		{
+			srcVar1			$maxClipAmmo
+			resultVar		"$holoScale[0]"
+		}
+		
+		// Final transform
+		"TextureTransform"
+		{
+			"scaleVar"		"$holoScale"
+			"translateVar"	"$holoOffset"
+			"resultvar"		"$basetexturetransform"
+		}
+	}
+}

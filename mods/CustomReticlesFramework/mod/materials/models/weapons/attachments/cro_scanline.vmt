@@ -7,13 +7,13 @@
 	"$nofog" "1"
 	"$allowoverbright" "1"
 	"$translucent" "1"
-	"$alpha"	".4"
+	"$alpha"	"0" //".4"
 
 	//"$basetexture" "models\weapons\attachments\ammo_counter_screen_bg_col"
 	"$basetexture" "models\holo_screens\holo_map_grid"
 	"$Texture2" "effects\dev_scanline_sparse"
-	"$color" "[1 1 1]"
-	"$color2" "[1.8 1.8 2.3]"
+	"$color" "[.5 .5 .5]"
+	"$color2" "[1 1 1]"
 
 
 

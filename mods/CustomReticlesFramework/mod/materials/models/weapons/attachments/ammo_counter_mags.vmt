@@ -1,0 +1,120 @@
+"Basic"	//ammo counter magazines - vis on ads
+{
+
+	"$surfaceprop" "default"
+	"$basetexture" "models\weapons\attachments\ammo_counter_mags_col"
+	"$translucent" "1"
+	"$selfillum" "1"
+	"$selfillummask" "models\weapons\attachments\ammo_counter_mags_ilm"
+
+	"$remainingClipCount" "0"
+	"$maxCarryAmmo" "0"
+	"$maxClipAmmo" "0"
+	"$rowCount" "1"
+	"$rowLength" "0"
+	"$atlasFrames" "[10 1]"
+	"$atlasFrameStart" "[0 0]"
+	"$atlasFrameCount" "[1 1]"
+
+	$alpha	.01
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"2.5"
+
+	"Proxies"
+	{
+		"RemainingClipCount"
+		{
+			"resultVar" "$remainingClipCount"
+		}
+
+		"MaxCarryAmmo"
+		{
+			"resultVar" "$maxCarryAmmo"
+		}
+		
+		"MaxClipAmmo"
+		{
+			"resultVar" "$maxClipAmmo"
+		}
+
+		"Divide"
+		{
+			"srcVar1" "$maxCarryAmmo"
+			"srcVar2" "$maxClipAmmo"
+			"resultVar" "$rowLength"
+		}
+
+		"TickCounterAtlasFrames"
+		{
+			"tickCount"					"$remainingClipCount"
+			"rowLength"					"$rowLength"
+			"rowIndex"					"0"
+			"atlasFrameSize"			"$atlasFrames[0]"
+			
+			"resultAtlasFrameStartVar"	"$atlasFrameStart[0]"
+			"resultAtlasFrameCountVar"	"$atlasFrameCount[0]"
+		}
+	
+		"TextureAtlas"
+		{
+			"frameSize"		"$atlasFrames"
+			"frameStart"	"$atlasFrameStart"
+			"frameCount"	"$atlasFrameCount"
+			"resultVar"		"$basetexturetransform"
+		}
+
+		"RemainingAmmoColor"
+		{
+			"resultVar"			"$color"
+		}
+
+		"HoloSight"
+		{
+			resultVar $alpha
+		}
+		Clamp	//0
+       		 {
+            srcVar1		$valuezero
+            min			"$color[0]"
+            max			"$color[0]"
+            resultVar	$color_temp_0
+        }
+		
+        Clamp	//1
+        {
+            srcVar1		$valuezero
+            min			"$color[1]"
+            max			"$color[1]"
+            resultVar	$color_temp_1
+        }
+		Clamp	//2
+        {
+            srcVar1		$valuezero
+            min			"$color[2]"
+            max			"$color[2]"
+            resultVar	$color_temp_2
+        }
+		multiply	//0
+		{
+			srcVar1		$color_temp_0
+			srcVar2		"$colorscale"
+			resultVar	"$color[0]"
+		}
+		multiply	//1
+		{
+			srcVar1		$color_temp_1
+			srcVar2		"$colorscale"
+			resultVar	"$color[1]"
+		}
+		multiply	//2
+		{
+			srcVar1		$color_temp_2
+			srcVar2		"$colorscale"
+			resultVar	"$color[2]"
+		}
+	}
+}

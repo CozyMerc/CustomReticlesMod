@@ -1,0 +1,84 @@
+"Basic"	// Ammo counter customisable 3 states
+{
+	"$surfaceprop" "plastic"
+
+	"$basetexture" "models\weapons\attachments\_ammo\ammo_counter_numbers_def_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_numbers_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1 
+	//"$decalscale" 0.25
+	"$allowoverbright"	"1"
+	
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"2"
+	
+	"$ammo" "0"
+	"$atlasFrames" "[16 1]"
+	"$atlasFrameStart" "[0 0]"
+	
+	$ammofrac	".0"
+	
+	$colortemp		"[.0 .0 .0]"
+	$ammoclrhigh	"[ 1.0 5.0 1.0 ]"
+	$ammoclrmid		"[ 1.0 1.0 5.0 ]"
+	$ammoclrlow		"[ 5.0 1.0 1.0 ]"
+	
+	$frachigh	"1.0"
+	$fracmid	".5"
+	$fraclow	".2"
+	
+	"Proxies"
+	{
+		"ClipAmmo"
+		{
+			"resultVar" "$ammo"
+		}
+	
+		"NumericCounterAtlasFrame"
+		{
+			"value"						"$ammo"
+			"digitIndex"				"0"
+			"resultAtlasFrameIndexVar"	"$atlasFrameStart[0]"
+		}
+	
+		"TextureAtlas"
+		{
+			"frameSize"		"$atlasFrames"
+			"frameStart"	"$atlasFrameStart"
+			"resultVar"		"$basetexturetransform"
+		}
+		
+// Custom color stuff 3 color states
+//
+		"ClipAmmoFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+		
+		"LessOrEqual" 
+		{
+			LessEqualVar	$ammoclrmid
+			greaterVar		$ammoclrhigh
+			srcVar1			$ammofrac
+			srcVar2			$fracmid
+			resultVar		$colortemp
+		}
+		"LessOrEqual" 
+		{
+			LessEqualVar	$ammoclrlow
+			greaterVar		$colortemp
+			srcVar1			$ammofrac
+			srcVar2			$fraclow
+			resultVar		$color
+		}
+		//"ClipAmmoColor"
+		//{
+		//	"resultVar"			"$color"
+		//}
+	}
+}

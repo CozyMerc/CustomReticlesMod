@@ -1,0 +1,11 @@
+{
+	"Aliases": {
+
+	},
+	"Preload": {
+		"HcogApex.rpak": false
+	},
+	"Postload": {
+	"HcogApex.rpak": "common.rpak"
+	}
+}

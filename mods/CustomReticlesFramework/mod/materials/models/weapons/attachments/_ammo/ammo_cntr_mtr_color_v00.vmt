@@ -1,0 +1,78 @@
+"Basic" // ammo counter meter - generic
+{
+	//"$surfaceprop" "glass"
+
+	"$basetexture" "models\weapons\attachments\ammo_counter_meter_col"
+	//"$selfillummask" "models\weapons\attachments\ammo_counter_meter_ilm"
+	"$translucent" "1"
+	//"$selfillum" "1"
+	//"$decal" 1
+	//"$decalscale" 0.25
+	"$ammofrac" "0.0"
+	$valueone	"1"
+	
+	$alpha	.01
+	$color	"[.0 .0 .0]"
+	$valuezero "0"
+	$color_temp_0	".0"
+	$color_temp_1	".0"
+	$color_temp_2	".0"
+	$colorscale		"13"
+
+	$colortemp		"[.0 .0 .0]"
+	$ammoclrhigh	"[ 1.0 5.0 1.0 ]"
+	$ammoclrmid		"[ 1.0 1.0 5.0 ]"
+	$ammoclrlow		"[ 5.0 1.0 1.0 ]"
+	
+	$frachigh	"1.0"
+	$fracmid	".5"
+	$fraclow	".2"
+
+	"Proxies"
+	{
+		"ClipAmmoFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+
+		"ProgressBarWithFrac"
+		{
+			"fraction"		"$ammofrac"
+			"resultVar"		"$basetexturetransform"
+		}
+
+// Custom color stuff 3 color states
+//
+		"MaxClipAmmo"
+		{
+			"resultVar" "$maxClipAmmo"
+		}
+		"ClipAmmoFraction"
+		{
+			"resultVar" "$ammofrac"
+		}
+		
+		Divide
+		{
+			srcVar1		$ammofrac
+			srcVar2		$maxClipAmmo
+			resultVar	$ammofracresult
+		}
+		"LessOrEqual" 
+		{
+			LessEqualVar	$ammoclrmid
+			greaterVar		$ammoclrhigh
+			srcVar1			$ammofrac
+			srcVar2			$fracmid
+			resultVar		$colortemp
+		}
+		"LessOrEqual" 
+		{
+			LessEqualVar	$ammoclrlow
+			greaterVar		$colortemp
+			srcVar1			$ammofrac
+			srcVar2			$fraclow
+			resultVar		$color
+		}
+	}
+}

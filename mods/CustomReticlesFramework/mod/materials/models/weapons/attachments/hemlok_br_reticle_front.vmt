@@ -1,0 +1,479 @@
+UnlitTwoTexture //DEVOTION FRONT
+{
+//	"$nocull" "1"
+//	"$nodecal" "1"
+//	"$additive" "1"
+
+
+//	"$no_fullbright" 	"1"
+//	"$model"			"1"
+//	"$nofog"			"1"
+
+	"$allowoverbright"	"1"
+	"$translucent"		"1"
+	
+	"$dofEnable"	"0"
+
+	//"$basetexture" "models\weapons\attachments\hemlok_br_front_reticle_front_col" //"models\weapons\attachments\aog_r1_reticle_merged_col" //"models\weapons\attachments\aog_r1_reticle_front_col" 
+	"$basetexture" "models\weapons\attachments\reticle_atlas_512_col"
+	"$Texture2" "dev\noise_post"
+
+//Base noise parameters
+	"$t2offset" 0
+	"$t2scale" .5
+	"$t2rot" 0
+	"$scroll" "[0 1]"
+	
+//COLOUR MANIPULATION
+	"$color" "[1 1 1]"
+	"$color2" "[1 1 1]"
+	
+//Base colourblind settings
+	"$colorblind" "0"
+	"$valuezero"	"0"
+	"$valueone"	"1"
+	"$valuetwo"	"2"
+	"$valuethree"	"3"
+	
+	"$colortemp"		"[1 1 1]"
+
+	"$clroffsetzero"	"[4 1 1]"			//Base colour
+ 	"$clroffsetone"		"[4.45 3.9 0]"		//Protanopia
+	"$clroffsettwo"		"[4 2.51 2.72]"		//Deuteranopia
+	"$clroffsetthree"	"[4.1 3.7 .3]"		//Tritanopia
+	
+	"$clroffsetfour"	"[.0 .0 .0]"		//Lgbtq+ mode /s
+	
+	"$isRainbow"		"0"					//sets rainbow mode
+	"$isCstmColor"		"0"					//overrides colourblind settings
+	
+//var dummies for customisable colours
+	"$cstm_color_r" "0.0"
+	"$cstm_color_g" "0.0"
+	"$cstm_color_b" "0.0"
+	
+//ADVANCED RETICLE options
+//post transform multiplication
+
+	"$translatescaleoverride"		"0.0" //value for offset override
+	"$translatescaleoverrideabs"	"0.0" //dummy check for override
+
+	$Translatescale "2.0"		//main scalar
+	$TranslatescaleX "2.0"		//x scalar
+	$TranslatescaleY "2.0"		//y scalar
+	$holoScale "[1.5 1.5]"		// Base scaling var [inverted!]
+	$holoOffset "[0.0 0.0]"		// Base Offset var
+
+	$holoOffsetX ".0"			//dummy for print
+	$holoOffsetY ".0"			//dummy for print
+	$holoOffsetX_temp ".0"		//dummy for print
+	$holoOffsetY_temp ".0"		//dummy for print
+
+	$holoOffset2 "[0.0 0.0]"	//Final Offset var
+
+	$holoOffset_temp 	"[0.0 0.0]"		// dummy Offset var
+	$holoOffset2_temp 	"[0.0 0.0]"		// dummy Offset var
+	$offset_disable		"0"				//offset killswitch
+
+	"$scale_temp"	"0.45" 		//dummy for cvar scaling =$holoscale
+	"$scale_post"	".0"		//temp var for cvar scaling
+	"$scale_result"	".0"		//temp var because we can't
+								//use vectors in 'Multiply'
+//reticle atlas settings
+	"$frame"			"0"			//base atlas var
+	"$frame_temp"		"0"			//temp var
+	"$frame_temp_alt"	"0"			//temp var
+	
+	"$valueatlasmax"	"20"			//last atlas frame var
+
+	"Proxies"
+	{
+	
+//Convar Based colour manipulation
+//
+
+		//Import client colurblind setting
+		"ConVar"
+		{
+			convar		"colorblind_mode"
+			resultVar	"$colorblind"
+		}
+		
+		// Custom base colour/[colorblind_mode 0]
+		"ConVar" //RED
+		{
+			convar		"CRM.hemlok_br_front_base_colorR" 
+			resultVar	"$cstm_color_r"
+		}
+		"ConVar" //GREEN
+		{
+			convar		"CRM.hemlok_br_front_base_colorG"
+			resultVar	"$cstm_color_g"
+		}
+		"ConVar" //BLUE
+		{
+			convar		"CRM.hemlok_br_front_base_colorB"
+			resultVar	"$cstm_color_b"
+		}
+		
+		//Move custom RGB values
+		//from temporary vars to base 'clroffset'
+		Equals
+		{
+			srcVar1			$cstm_color_r
+			resultVar		"$clroffsetzero[0]"
+		}
+		Equals
+		{
+			srcVar1			$cstm_color_g
+			resultVar		"$clroffsetzero[1]"
+		}
+		Equals
+		{
+			srcVar1			$cstm_color_b
+			resultVar		"$clroffsetzero[2]"
+		}
+		
+//Colourblind mod
+//
+
+		// for 1/2
+		"LessOrEqual" 
+		{
+			LessEqualVar	$clroffsetone
+			greaterVar		$clroffsettwo
+			srcVar1			$colorblind
+			srcVar2			$valueone
+			resultVar		$color2
+		}
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		// for 3
+		LessOrEqual
+		{
+			LessEqualVar	$colortemp
+			greaterVar		$clroffsetthree
+			srcVar1			$colorblind
+			srcVar2			$valuetwo
+			resultVar		$color2
+		}
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		// for 0
+		LessOrEqual
+		{
+			LessEqualVar	$clroffsetzero
+			greaterVar		$colortemp
+			srcVar1			$colorblind
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+//Custom Colour OVERRIDES Colourblind settings	
+		
+		// Custom colour override
+		"ConVar"
+		{
+			convar		"CRM.cstm_color_override" 
+			resultVar	"$isCstmColor"
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$colortemp
+			greaterVar		$clroffsetzero
+			srcVar1			$isCstmColor
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+		
+//RGB MODE OVERRIDE
+//
+
+		//Is rgb mode on/off
+		"ConVar"
+		{
+			convar		"CRM.rgb_override"
+			resultVar	"$isRainbow"
+		}
+
+		//RGB pattern
+		sine //RED
+		{
+			sineperiod	"3"		// period time [s]
+			sinemin		.1		// min lum
+			sinemax		4		// max lum
+			timeoffset	0		// offset [s]
+
+			resultvar	"$clroffsetfour[0]" 		
+		}
+		sine //GREEN
+		{
+			sineperiod	"3"
+			sinemin		.1
+			sinemax		4
+			timeoffset	"1"
+									
+			resultvar	"$clroffsetfour[1]" 		
+		}
+		sine //BLUE
+		{
+			sineperiod	"3"
+			sinemin		.1
+			sinemax		4
+			timeoffset	"2"
+									
+			resultvar	"$clroffsetfour[2]" 		
+		}
+
+		//Just in case
+		Equals
+		{
+			srcVar1			$color2
+			resultVar		$colortemp
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$colortemp
+			greaterVar		$clroffsetfour
+			srcVar1			$isRainbow
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+
+//RETICLE STYLE CONVAR/PROXIES
+//
+		//Import prefered client atlas number
+		"ConVar"
+		{
+			convar		"CRM.hemlok_br_front_reticle_style"
+			resultVar	"$frame_temp"
+		}
+		//Convert custom value to integer,
+		//  to prevent unnecessary issues
+		"Int"
+		{
+			srcVar1		$frame_temp
+			resultVar	$frame_temp_alt
+		}
+		Clamp	//"The value must be a valid index, or crashes might occur" :skull:
+        {
+            srcVar1		$frame_temp_alt
+            min			$valuezero
+            max			$valueatlasmax
+            resultVar	$frame
+        }
+
+//Unused by default fsr, + Im too stupid to understand squirell xD
+//		EntityScript
+//		{
+//			scriptFuncName	"VMTCallback_HoloSightOffset_RSPN101_Rear"
+//			resultVar $holoOffset
+//		}
+
+//OFFSET/SCALE CONVARS
+//
+		//convars that control $holoOffset scalar
+		"ConVar"
+		{
+			convar		"CRM.offset_scalar_global"
+			resultVar	"$translatescale"
+		}
+		// main scopes no longer use offsets only irons
+		"ConVar"
+		{
+			convar		"CRM.hemlok_br_front_offset_scalar"
+			resultVar	"$translatescaleoverride"
+		}
+		//removed in favour of standardised scalar
+//		"ConVar"
+//		{
+//			convar		"CRM.hemlok_br_front_offset_scalarY"
+//			resultVar	"$translatescaley"
+//		}
+//		"ConVar"
+//		{
+//		convar		"CRM.hemlok_br_front_offset_scalarX"
+//		resultVar	"$translatescalex"
+//		}
+		
+		//convars that control $holoScale scalar
+		"ConVar"
+		{
+			convar		"CRM.hemlok_br_front_reticle_scale"
+			resultVar	"$scale_post"
+		}
+
+//Convar Based Scale manipulation
+//
+		//Holo Scalar X
+		Multiply
+		{
+			srcVar1		$scale_temp
+			srcVar2		$scale_post
+			resultVar	"$holoScale[0]"
+		}
+		//Holo Scalar Y
+		Multiply
+		{
+			srcVar1		$scale_temp
+			srcVar2		$scale_post
+			resultVar	"$holoScale[1]"
+		}
+		
+//Base Offset from uv centre relative to vector2 $attachment position
+//
+		"HoloSightOffset"	//Titanfall 1 magic
+		//only allows 'float' for [...]Scalar
+		{
+			attachmentName		"IRON_FRONT"
+			horizontalScalar	".14598903" //".53"
+			verticalScalar	"-.147921675" //"-0.53"
+			resultVar			$holoOffset
+		}
+		
+//Convar Based position manipulation
+//
+		// select custom setting if override value is changed
+		Abs
+		{
+			srcVar1		$translatescaleoverride
+			resultVar	$translatescaleoverrideabs
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$translatescale
+			greaterVar		$translatescaleoverride
+			srcVar1			$translatescaleoverrideabs
+			srcVar2			$valuezero
+			resultVar		$translatescale
+		}		
+		// Print $holooffset value for later use
+		Clamp	//X axis
+        {
+            srcVar1		$valuezero
+            min			"$holoOffset[0]"
+            max			"$holoOffset[0]"
+            resultVar	$holoOffsetX
+        }
+		
+        Clamp	//Y axis
+        {
+            srcVar1		$valuezero
+            min			"$holoOffset[1]"
+            max			"$holoOffset[1]"
+            resultVar	$holoOffsetY
+        }
+		//Additional multiplication for scale+offset integration
+		Equals
+		{
+			srcVar1			$holoOffsetX
+			resultVar		$holoOffsetX_temp
+		}
+		Equals 
+		{
+			srcVar1			$holoOffsetY
+			resultVar		$holoOffsetY_temp
+		}
+		multiply	//scale+offset X axis
+		{
+			srcVar1		$holoOffsetX_temp
+			srcVar2		$scale_post
+			resultVar	$holoOffsetX
+		}
+		multiply	//scale+offset Y axis
+		{
+			srcVar1		$holoOffsetY_temp
+			srcVar2		$scale_post
+			resultVar	$holoOffsetY
+		}		
+		// additional offset scalar set by convar
+		multiply	//X axis
+		{
+			srcVar1		$holoOffsetX
+			srcVar2		"$translatescale"
+			resultVar	"$holoOffset2[0]"
+		}
+		multiply	//Y axis
+		{
+			srcVar1		$holoOffsetY
+			srcVar2		"$translatescale"
+			resultVar	"$holoOffset2[1]"
+		}
+		// Killswitch
+		"ConVar"
+		{
+			convar		"CRM.offset_disable" 
+			resultVar	"$offset_disable"
+		}
+		//dummy vars for killswitch
+		Equals
+		{
+			srcVar1			$holoOffset2
+			resultVar		$holoOffset2_temp
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$holoOffset2_temp
+			greaterVar		$holoOffset_temp
+			srcVar1			$offset_disable
+			srcVar2			$valuezero
+			resultVar		$holoOffset2
+		}
+	
+// Basic texture transformations (noise/flicker)
+//
+		//Horizontal movement speed
+		"UniformNoise"
+		{
+			"minVal" 0.5
+			"maxVal" 1
+			"resultVar" "$scroll[0]"
+		}
+		//Vertical movement speed
+		"UniformNoise"
+		{
+			"minVal" 0.5
+			"maxVal" 1
+			"resultVar" "$scroll[1]"
+		}
+		//Move the 2nd texture using horiz and vert speed
+		"TextureTransform"
+		{
+			"translateVar" "$scroll"
+			"scaleVar" "$t2scale"
+			"rotateVar" "$t2rot"
+			"resultvar" "$texture2transform"
+		}
+		//chevron flicker
+		"UniformNoise"
+		{
+			"minVal" 0.8
+			"maxVal" 1.00
+			"resultVar" "$color"
+		}
+
+		// Equivalent of Vis/ZoomFrac from rui
+		// $alpha =1 if +zoom is initiated
+		"HoloSight"
+		{
+			resultVar $alpha
+		}
+		
+		// Final transform
+		"TextureTransform"
+		{
+			"scaleVar"		"$holoScale"
+			"translateVar"	"$holoOffset2"
+			"resultvar"		"$basetexturetransform"
+		}
+	}
+}

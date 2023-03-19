@@ -10,9 +10,10 @@ UnlitTwoTexture //AOG CENTRE DOT
 //	"$nofog"			"1"
 
 	"$allowoverbright"	"1"
+	//"$translucent"		"1"
 	"$translucent"		"1"
 	
-	"$dofEnable"	"0"
+//	"$dofEnable"	"0"
 	
 //og scope texture
 //	"$basetexture" "models\weapons\attachments\aog_r1_reticle_front_col"
@@ -47,6 +48,7 @@ UnlitTwoTexture //AOG CENTRE DOT
 	"$clroffsetfour"	"[.0 .0 .0]"		//Lgbtq+ mode /s
 	
 	"$isRainbow"		"0"					//sets rainbow mode
+	"$isCstmColor"		"0"					//overrides colourblind settings
 	
 //var dummies for customisable colours
 	"$cstm_color_r" "0.0"
@@ -56,6 +58,7 @@ UnlitTwoTexture //AOG CENTRE DOT
 //ADVANCED RETICLE options
 //post transform multiplication
 
+	$Translatescale "2.0"		//main scalar
 	$TranslatescaleX "2.0"		//x scalar
 	$TranslatescaleY "2.0"		//y scalar
 	$holoScale "[3.0 3.0]"		// Base scaling var [inverted!]
@@ -63,10 +66,16 @@ UnlitTwoTexture //AOG CENTRE DOT
 
 	$holoOffsetX ".0"			//dummy for print
 	$holoOffsetY ".0"			//dummy for print
-
+	$holoOffsetX_temp ".0"		//dummy for print
+	$holoOffsetY_temp ".0"		//dummy for print
+	
 	$holoOffset2 "[0.0 0.0]"	//Final Offset var
 
-	"$scale_temp"	"3.0" 		//dummy for cvar scaling =$holoscale
+	$holoOffset_temp 	"[0.0 0.0]"		// dummy Offset var
+	$holoOffset2_temp 	"[0.0 0.0]"		// dummy Offset var
+	$offset_disable		"0"				//offset killswitch
+	
+	"$scale_temp"	"1.0" 		//dummy for cvar scaling =$holoscale
 	"$scale_post"	".0"		//temp var for cvar scaling
 	"$scale_result"	".0"		//temp var because we can't
 								//use vectors in 'Multiply'
@@ -75,7 +84,7 @@ UnlitTwoTexture //AOG CENTRE DOT
 	"$frame_temp"		"0"			//temp var
 	"$frame_temp_alt"	"0"			//temp var
 	
-	"$valueatlasmax"	"7"			//last atlas frame var
+	"$valueatlasmax"	"20"			//last atlas frame var
 
 	
 	"Proxies"
@@ -166,6 +175,24 @@ UnlitTwoTexture //AOG CENTRE DOT
 			srcVar2			$valuezero
 			resultVar		$color2
 		}
+//Custom Colour OVERRIDES Colourblind settings	
+		
+		// Custom colour override
+		"ConVar"
+		{
+			convar		"CRM.cstm_color_override" 
+			resultVar	"$isCstmColor"
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$colortemp
+			greaterVar		$clroffsetzero
+			srcVar1			$isCstmColor
+			srcVar2			$valuezero
+			resultVar		$color2
+		}
+
 //RGB MODE OVERRIDE
 //
 
@@ -256,14 +283,20 @@ UnlitTwoTexture //AOG CENTRE DOT
 		//convars that control $holoOffset scalar
 		"ConVar"
 		{
-			convar		"CRM.aog_r1_offset_scalarY"
-			resultVar	"$translatescaley"
+			convar		"CRM.offset_scalar_global" // convar		"CRM.aog_r1_offset_scalar"
+			resultVar	"$translatescale"
 		}
-		"ConVar"
-		{
-		convar		"CRM.aog_r1_offset_scalarX"
-		resultVar	"$translatescalex"
-		}
+		//removed in favour of standardised scalar
+//		"ConVar"
+//		{
+//			convar		"CRM.aog_r1_offset_scalarY"
+//			resultVar	"$translatescaley"
+//		}
+//		"ConVar"
+//		{
+//		convar		"CRM.aog_r1_offset_scalarX"
+//		resultVar	"$translatescalex"
+//		}
 		
 		//convars that control $holoScale scalar
 		"ConVar"
@@ -295,8 +328,8 @@ UnlitTwoTexture //AOG CENTRE DOT
 		//only allows 'float' for [...]Scalar
 		{
 			attachmentName		"AOG_R1_FRONT"
-			horizontalScalar	"0.5225" //".35"
-			verticalScalar		"-0.5225"
+			horizontalScalar	"0.35" //".35"
+			verticalScalar		"-0.35"
 			resultVar			$holoOffset
 		}
 		
@@ -319,21 +352,64 @@ UnlitTwoTexture //AOG CENTRE DOT
             max			"$holoOffset[1]"
             resultVar	$holoOffsetY
         }
-		
+		//Additional multiplication for scale+offset integration
+		Equals
+		{
+			srcVar1			$holoOffsetX
+			resultVar		$holoOffsetX_temp
+		}
+		Equals 
+		{
+			srcVar1			$holoOffsetY
+			resultVar		$holoOffsetY_temp
+		}
+		multiply	//scale+offset X axis
+		{
+			srcVar1		$holoOffsetX_temp
+			srcVar2		$scale_post
+			resultVar	$holoOffsetX
+		}
+		multiply	//scale+offset Y axis
+		{
+			srcVar1		$holoOffsetY_temp
+			srcVar2		$scale_post
+			resultVar	$holoOffsetY
+		}		
 		// additional offset scalar set by convar
 		multiply	//X axis
 		{
 			srcVar1		$holoOffsetX
-			srcVar2		"$translatescalex"
+			srcVar2		"$translatescale"
 			resultVar	"$holoOffset2[0]"
 		}
 		multiply	//Y axis
 		{
 			srcVar1		$holoOffsetY
-			srcVar2		"$translatescaley"
+			srcVar2		"$translatescale"
 			resultVar	"$holoOffset2[1]"
 		}
-		
+		// Killswitch
+		"ConVar"
+		{
+			convar		"CRM.offset_disable" 
+			resultVar	"$offset_disable"
+		}
+		//dummy vars for killswitch
+		Equals
+		{
+			srcVar1			$holoOffset2
+			resultVar		$holoOffset2_temp
+		}
+		//checks for values>0
+		LessOrEqual
+		{
+			lessEqualVar	$holoOffset2_temp
+			greaterVar		$holoOffset_temp
+			srcVar1			$offset_disable
+			srcVar2			$valuezero
+			resultVar		$holoOffset2
+		}
+
 		
 // Basic texture transformations (noise/flicker)
 //
